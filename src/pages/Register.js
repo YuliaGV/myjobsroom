@@ -4,14 +4,16 @@ import { Formik } from 'formik';
 import Logo from '../img/Logo.PNG'
 
 const Register = () => {
+
+    
   return (
 
-    <section class="h-screen">
+    <section className="h-screen">
 
       <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
             <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
                 <img className='mx-auto' src={Logo} alt='Logo' />
-                <h1 className="text-3xl font-semibold text-center text-sky-700">
+                <h1 className="text-3xl font-semibold text-center text-cyan-700">
                    Regístrate
                 </h1>
 
@@ -55,13 +57,13 @@ const Register = () => {
 
                     <div className="mb-2">
                         <label
-                            for="email"
+                            htmlFor="email"
                             className="block text-sm font-semibold text-gray-800"
                         >
                             Email
                         </label>
                         <input
-                            className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            className="block w-full px-4 py-2 mt-2 text-cyan-700 bg-white border rounded-md focus:border-cyan-400 focus:ring-cyan-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             autoFocus
                             type="email"
                             name="email"
@@ -74,13 +76,13 @@ const Register = () => {
                     </div>
                     <div className="mb-2">
                         <label
-                            for="password"
+                            htmlFor="password"
                             className="block text-sm font-semibold text-gray-800"
                         >
                             Contraseña
                         </label>
                         <input
-                            className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            className="block w-full px-4 py-2 mt-2 text-cyan-700 bg-white border rounded-md focus:border-cyan-400 focus:ring-cyan-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             name="password"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -91,7 +93,7 @@ const Register = () => {
             
         
                     <div className="mt-6">
-                      <button type="submit" disabled={isSubmitting} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-sky-700 rounded-md hover:bg-sky-600 focus:outline-none focus:bg-sky-600">
+                      <button type="submit" disabled={isSubmitting} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-cyan-700 rounded-md hover:bg-cyan-600 focus:outline-none focus:bg-cyan-600">
                         Registrarse
                       </button>
                         
@@ -148,7 +150,7 @@ const Register = () => {
 
 
                     <Link to='/login'>
-                      <span className="font-medium text-sky-600 hover:underline">Inicia sesión</span>
+                      <span className="font-medium text-cyan-600 hover:underline">Inicia sesión</span>
                     </Link>
 
 

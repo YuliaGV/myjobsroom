@@ -1,14 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState, useContext } from 'react'
+
+import { AuthContext } from "../context/AuthContext"
+
 import { MdMenu } from 'react-icons/md';
-
 import {Link} from "react-router-dom";
-
-
 import Logo from '../img/LogoMini.png'
 
 const Navbar = ({ currentElement}) => {
 
 
+
+    const {currentUser} = useContext(AuthContext)
+ 
     const [navbarOpen, setNavbarOpen] = useState(false);
 
     let pages = [];
@@ -17,10 +20,10 @@ const Navbar = ({ currentElement}) => {
     pages = [    
         { text: 'Inicio', href: '/' },
         { text: 'Ofertas', href: '/jobs' },
-        { text: 'Empresas', href: '/companies'},
-        { text: '¿Eres una empresa?', href: '/forcompanies' }
+        { text: 'Mis ofertas favoritas', href: '/myjobssaved'},
+        { text: '¿Eres una empresa?', href: '/forcompanies' },
+        { text: 'Empresas', href: '/companies'}
     ]
-
 
  
      return (
@@ -52,27 +55,52 @@ const Navbar = ({ currentElement}) => {
                     <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
                         {pages.map((page) => (
                             <li key={page.text} className="nav-item">
-                                <Link className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" to='/'>
+                                <Link className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" to={page.href}>
                                     <span className={page.text === currentElement ? 'text-amber-500 ml-2':'ml-2'}>{page.text}</span>
                                 </Link>
                             </li>
                         
                         ))}
+                    </ul>
 
-                        <li className="nav-item">
-                            <Link className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" to='/login'>
-                                <span className="ml-2">Ingresar</span>
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" to='/register'>
-                                <button class="bg-amber-600 hover:bg-amber-500 text-white font-bold rounded">
-                                    <span className="px-2 py-2 uppercase">Registrarte</span>
+                    <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
+
+                    {!currentUser ? (
+                        <>
+                            <li className="nav-item">
+                                <Link className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" to='/login'>
+                                    <span className="ml-2">Ingresar</span>
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" to='/register'>
+                                    <button className="bg-amber-600 hover:bg-amber-500 text-white font-bold rounded">
+                                        <span className="px-2 py-2 uppercase">Registrarte</span>
+                                    </button>
+                                </Link>
+                            </li>
+                        </>
+
+                    ):(
+                        <>
+                            <li className="nav-item">
+                            <Link className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" to='/profile'>
+                                <button className="bg-amber-600 hover:bg-amber-500 text-white font-bold rounded">
+                                    <span className="px-2 py-2 uppercase">Mi perfil</span>
                                 </button>
                             </Link>
-                        </li>
+                            
+                            </li>
+                            <li className="nav-item">
+                                <Link className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" to='/logout'>
+                                    <span className="ml-2">Logout</span>
+                                </Link>
+                            </li>
+                        </>
 
+                    )}
 
+        
                     </ul>
                 </div>
                 </div>

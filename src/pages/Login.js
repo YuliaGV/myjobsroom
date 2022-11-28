@@ -1,17 +1,33 @@
-import {Link} from "react-router-dom";
+import { useContext, useState } from "react";
+
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+
+import { useNavigate } from 'react-router-dom';
+
+import { AuthContext } from "../context/AuthContext";
+
+import { Link } from "react-router-dom";
 import { Formik } from 'formik';
 
 import Logo from '../img/Logo.PNG'
 
 const Login = () => {
 
+
+  const [error, setError] = useState(false);
+
+  const navigate = useNavigate();
+
+  const {dispatch} = useContext(AuthContext)
+
   return (
-    <section class="h-screen">
+    <section className="h-screen">
 
       <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
             <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
                 <img className='mx-auto' src={Logo} alt='Logo' />
-                <h1 className="text-3xl font-semibold text-center text-sky-700">
+                <h1 className="text-3xl font-semibold text-center text-cyan-700">
                    Inicia sesión
                 </h1>
 
@@ -35,10 +51,21 @@ const Login = () => {
                   return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                  setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                  }, 400);
+
+                  signInWithEmailAndPassword(auth, values.email, values.password)
+                  .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    dispatch({type:"LOGIN", payload:user})
+                    navigate('/');
+                    
+                    // ...
+                  })
+                  .catch((error) => {
+                    setError(true);
+                  });
+              
+                  
                 }}
               >
                 {({
@@ -55,13 +82,13 @@ const Login = () => {
 
                     <div className="mb-2">
                         <label
-                            for="email"
+                            htmlFor="email"
                             className="block text-sm font-semibold text-gray-800"
                         >
                             Email
                         </label>
                         <input
-                            className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            className="block w-full px-4 py-2 mt-2 text-cyan-700 bg-white border rounded-md focus:border-cyan-400 focus:ring-cyan-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             autoFocus
                             type="email"
                             name="email"
@@ -74,13 +101,14 @@ const Login = () => {
                     </div>
                     <div className="mb-2">
                         <label
-                            for="password"
+                            htmlFor="password"
                             className="block text-sm font-semibold text-gray-800"
                         >
                             Contraseña
                         </label>
                         <input
-                            className="block w-full px-4 py-2 mt-2 text-sky-700 bg-white border rounded-md focus:border-sky-400 focus:ring-sky-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            className="block w-full px-4 py-2 mt-2 text-cyan-700 bg-white border rounded-md focus:border-cyan-400 focus:ring-cyan-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            type = "password"
                             name="password"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -91,13 +119,13 @@ const Login = () => {
                
 
                     <Link to='/forgotpassword'>
-                      <span className="text-xs text-sky-600 hover:underline">¿Olvidaste tu contraseña?</span>
+                      <span className="text-xs text-cyan-600 hover:underline">¿Olvidaste tu contraseña?</span>
                     </Link>
 
          
 
                     <div className="mt-6">
-                      <button type="submit" disabled={isSubmitting} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-sky-700 rounded-md hover:bg-sky-600 focus:outline-none focus:bg-sky-600">
+                      <button type="submit" disabled={isSubmitting} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-cyan-700 rounded-md hover:bg-cyan-600 focus:outline-none focus:bg-cyan-600">
                         Iniciar sesión
                       </button>
                         
@@ -154,12 +182,18 @@ const Login = () => {
 
 
                     <Link to='/register'>
-                      <span className="font-medium text-sky-600 hover:underline">Regístrate ahora</span>
+                      <span className="font-medium text-cyan-600 hover:underline">Regístrate ahora</span>
                     </Link>
 
 
-
                 </p>
+
+                {error && 
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2" role="alert">
+                  <strong className="font-bold">¡Uy!</strong>
+                  <span className="block sm:inline"> Datos erróneos </span>
+                </div>
+                }
             </div>
         </div>
     </section>
