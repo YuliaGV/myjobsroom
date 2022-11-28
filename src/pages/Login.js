@@ -15,9 +15,12 @@ import Logo from '../img/Logo.PNG'
 const Login = () => {
 
 
+  
+  const navigate = useNavigate();
+
+
   const [error, setError] = useState(false);
 
-  const navigate = useNavigate();
 
   const {dispatch} = useContext(AuthContext)
 

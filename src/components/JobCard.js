@@ -4,7 +4,7 @@ import {
     useNavigate
   } from "react-router-dom";
 
-//import { MdLocationOn } from 'react-icons/md';
+import { MdLocationOn } from 'react-icons/md';
 
 const JobCard = ({job}) => {
 
@@ -38,10 +38,16 @@ const navigate = useNavigate();
             {job.company}
             </p>
       
-         
-            <p className="text-gray-700 text-sm  mb-2 location">
-            <span className='font-bold'>Ubicación: </span> {job.location[0].city}, {job.location[0].country}
-            </p>
+            <div className='flex flex-row justify-center'>
+              <div>
+                <MdLocationOn />
+              </div>
+              <div>
+                <p className="text-gray-700 text-sm  mb-2 location">
+                  {job.location[0].city}, {job.location[0].country}
+                </p>
+              </div>
+            </div>
                
             {
             job.location.length > 1 && 

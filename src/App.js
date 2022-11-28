@@ -9,8 +9,9 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Jobs from './pages/Jobs'
-import MyJobsSaved from './pages/MyJobsSaved'
+import FavoriteJobs from './pages/FavoriteJobs'
 import JobDetail from "./pages/JobDetail";
+
 
 
 import { useContext } from "react";
@@ -23,7 +24,7 @@ function App() {
   const {currentUser} = useContext(AuthContext)
 
   const RequireAuth = ({ children }) => {
-    return currentUser ? children : <Navigate to="/login" />;
+    return currentUser ? children : <Navigate to="/home" />;
   };
 
 
@@ -35,8 +36,9 @@ function App() {
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register/>} />
         <Route path="/jobs" element={<Jobs/>} />
-        <Route path="/myjobssaved" element={<MyJobsSaved/>} />
+        <Route path="/favoritejobs" element={<FavoriteJobs/>} />
         <Route path="/job/:id" element={<JobDetail/>} />
+  
 
       </Routes>
     </Router>
