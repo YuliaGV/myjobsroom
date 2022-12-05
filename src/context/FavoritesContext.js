@@ -13,7 +13,7 @@ export const FavoritesProvider = (props) => {
         //get data from LocalStorage
         useEffect(() => {
             const getFavorites = async () => {
-                const favorites = await JSON.parse(localStorage.getItem('favorites'));
+                const favorites = await JSON.parse(localStorage.getItem('favoriteJobsRoom'));
                 if(favorites){
                     setFavorites(favorites);
                 }
@@ -23,7 +23,7 @@ export const FavoritesProvider = (props) => {
 
         //save data to LocalStorage
         useEffect(() => {
-            localStorage.setItem('favorites', JSON.stringify(favorites));
+            localStorage.setItem('favoriteJobsRoom', JSON.stringify(favorites));
         }, [favorites])
         
         return (

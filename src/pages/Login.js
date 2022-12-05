@@ -1,28 +1,47 @@
 import { useContext, useState } from "react";
 
+import {Link, useNavigate } from "react-router-dom";
+
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+
 import { auth } from "../firebase";
 
-import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from "../context/AuthContext";
 
-import { Link } from "react-router-dom";
 import { Formik } from 'formik';
 
 import Logo from '../img/Logo.PNG'
 
 const Login = () => {
 
-
   
   const navigate = useNavigate();
 
 
-  const [error, setError] = useState(false);
-
-
   const {dispatch} = useContext(AuthContext)
+
+
+  const handleLogin = async (data) => {
+  
+    try {
+      const res = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+
+      const user = {...res.user, role:'loquesea'}
+      dispatch({type:"LOGIN", payload:user})
+
+      navigate('/')
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
 
   return (
     <section className="h-screen">
@@ -53,23 +72,7 @@ const Login = () => {
 
                   return errors;
                 }}
-                onSubmit={(values, { setSubmitting }) => {
-
-                  signInWithEmailAndPassword(auth, values.email, values.password)
-                  .then((userCredential) => {
-                    // Signed in 
-                    const user = userCredential.user;
-                    dispatch({type:"LOGIN", payload:user})
-                    navigate('/');
-                    
-                    // ...
-                  })
-                  .catch((error) => {
-                    setError(true);
-                  });
-              
-                  
-                }}
+                onSubmit={(values, { setSubmitting }) => handleLogin(values)}
               >
                 {({
                   values,
@@ -191,12 +194,6 @@ const Login = () => {
 
                 </p>
 
-                {error && 
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-2" role="alert">
-                  <strong className="font-bold">¡Uy!</strong>
-                  <span className="block sm:inline"> Datos erróneos </span>
-                </div>
-                }
             </div>
         </div>
     </section>

@@ -32,8 +32,7 @@ const Navbar = ({ currentElement}) => {
         { text: 'Inicio', href: '/' },
         { text: 'Ofertas', href: '/jobs' },
         { text: 'Mis ofertas favoritas', href: '/favoritejobs'},
-        { text: '¿Eres una empresa?', href: '/forcompanies' },
-        { text: 'Empresas', href: '/companies'}
+        { text: '¿Eres una empresa?', href: '/homecompany'}
     ]
 
 

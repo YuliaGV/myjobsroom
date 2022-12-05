@@ -11,6 +11,7 @@ import Register from './pages/Register'
 import Jobs from './pages/Jobs'
 import FavoriteJobs from './pages/FavoriteJobs'
 import JobDetail from "./pages/JobDetail";
+import HomeCompany from "./pages/HomeCompany";
 
 
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/register" element={<Register/>} />
         <Route path="/jobs" element={<Jobs/>} />
         <Route path="/favoritejobs" element={<FavoriteJobs/>} />
+        <Route path="/homecompany" element={<HomeCompany/>} />
         <Route path="/job/:id" element={<JobDetail/>} />
   
 

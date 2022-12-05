@@ -1,15 +1,19 @@
-import React, {useState } from 'react'
+import React, {useContext, useState } from 'react'
+import { FavoritesContext } from '../context/FavoritesContext';
 
 import {
     useNavigate
   } from "react-router-dom";
 
-import { MdLocationOn } from 'react-icons/md';
+import { MdLocationOn,MdFavoriteBorder,MdFavorite} from 'react-icons/md';
 
 const JobCard = ({job}) => {
 
 
-const navigate = useNavigate();
+
+  const navigate = useNavigate();
+
+  const {favorites, setFavorites} = useContext(FavoritesContext)
 
 
   const [showModal, setShowModal] = useState(false);
@@ -17,6 +21,14 @@ const navigate = useNavigate();
   const showJob = (id) => {
     navigate(`/job/${id}`);
     }
+
+  const addToFavorites = (job) =>{
+    setFavorites([...favorites, job])
+  }
+
+  const removeFromFavorites = (job) =>{
+    setFavorites(favorites.filter(fav => fav.id !== job.id))
+  }
 
 
   return (
@@ -73,15 +85,27 @@ const navigate = useNavigate();
         <div className="px-6 pt-4 pb-2 flex flex-row justify-between">
             <div>
                 <button className="bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded" onClick={() => showJob(job.id)}>
-                    <span className="px-1 py-1">Ver detalles</span>
+                    <span className="px-1 py-1">Detalles</span>
                 </button>
             
                 
             </div>
             <div>
-                <button className="bg-white text-cyan-600 font-bold rounded">
-                    <span className="px-1 py-1 underline">Agregar a favoritos</span>
-                </button>
+                  { favorites.some(fav => fav.id === job.id) ? 
+
+                    (
+                    <button className="bg-white text-cyan-600 font-bold rounded text-2xl" onClick={() => removeFromFavorites(job)}>
+                         <MdFavorite/>
+                    </button>
+                    ):
+                    (
+                      <button className="bg-white text-cyan-600 font-bold rounded text-2xl" onClick={() => addToFavorites(job)}>
+                         <MdFavoriteBorder/>
+                      </button>
+                    )
+
+                  }
+
             </div>
         </div>
     </div>

@@ -1,12 +1,51 @@
-import {Link} from "react-router-dom";
+import { useContext, useState } from "react";
+
+import {Link, useNavigate } from "react-router-dom";
+
 import { Formik } from 'formik';
+
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../firebase";
+
+import {doc,setDoc } from "firebase/firestore";
+
+import Swal from 'sweetalert2'
 
 import Logo from '../img/Logo.PNG'
 
+
 const Register = () => {
 
-    
+  const navigate = useNavigate();
+
+  const handleAdd = async (data) => {
+  
+    try {
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      await setDoc(doc(db, "users", res.user.uid), {
+        email:data.email,
+        password:data.password,
+        role: 'applicant'
+      });
+      Swal.fire({
+        title: 'Inicio de sesión exitoso',
+        width: 600,
+        padding: '3em',
+        color: 'fff',
+        
+      })
+      navigate('/login')
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
+
 
     <section className="h-screen">
 
@@ -16,7 +55,6 @@ const Register = () => {
                 <h1 className="text-3xl font-semibold text-center text-cyan-700">
                    Regístrate
                 </h1>
-
 
                 <Formik
                 initialValues={{ email: '', password: '' }}
@@ -36,12 +74,7 @@ const Register = () => {
 
                   return errors;
                 }}
-                onSubmit={(values, { setSubmitting }) => {
-                  setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
-                    setSubmitting(false);
-                  }, 400);
-                }}
+                onSubmit={(values, { setSubmitting }) => handleAdd(values)}
               >
                 {({
                   values,
@@ -83,6 +116,7 @@ const Register = () => {
                         </label>
                         <input
                             className="block w-full px-4 py-2 mt-2 text-cyan-700 bg-white border rounded-md focus:border-cyan-400 focus:ring-cyan-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                            type="password"
                             name="password"
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -153,9 +187,10 @@ const Register = () => {
                       <span className="font-medium text-cyan-600 hover:underline">Inicia sesión</span>
                     </Link>
 
-
-
                 </p>
+
+
+    
             </div>
         </div>
     </section>

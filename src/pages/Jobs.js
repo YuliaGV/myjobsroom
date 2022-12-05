@@ -1,5 +1,7 @@
-import JobCard from '../components/JobCard'
+
 import jobList from '../jobList'
+
+import JobCard from '../components/JobCard'
 import Navbar from '../components/Navbar'
 
 
