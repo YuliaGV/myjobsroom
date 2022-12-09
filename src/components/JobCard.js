@@ -1,5 +1,6 @@
-import React, {useContext, useState } from 'react'
-import { FavoritesContext } from '../context/FavoritesContext';
+import React, {useState, useContext } from 'react'
+import FavoritesContext from '../context/FavoritesContext';
+
 
 import {
     useNavigate
@@ -7,20 +8,15 @@ import {
 
 import { MdLocationOn,MdFavoriteBorder,MdFavorite} from 'react-icons/md';
 
+
+
+
 const JobCard = ({job}) => {
-
-
 
   const navigate = useNavigate();
 
-  const {favorites, setFavorites} = useContext(FavoritesContext)
+  const {favorites, setFavorites } = useContext(FavoritesContext);
 
-
-  const [showModal, setShowModal] = useState(false);
-
-  const showJob = (id) => {
-    navigate(`/job/${id}`);
-    }
 
   const addToFavorites = (job) =>{
     setFavorites([...favorites, job])
@@ -29,6 +25,20 @@ const JobCard = ({job}) => {
   const removeFromFavorites = (job) =>{
     setFavorites(favorites.filter(fav => fav.id !== job.id))
   }
+
+
+  const isFavorite = (job) => {
+    return favorites.some(fav => fav.id === job.id);
+  }
+
+
+  const [showModal, setShowModal] = useState(false);
+
+  const showJob = (id) => {
+    navigate(`/job/${id}`);
+    }
+
+  
 
 
   return (
@@ -40,9 +50,11 @@ const JobCard = ({job}) => {
                 Publicado: {job.dateposted}
                 </p>
             </div>
-            { job.remote && (
-                <div className='text-xs font-bold text-amber-600'><p>Remoto</p></div>
-            )}
+            <div>
+              { job.remote && (
+                  <div className='text-xs font-bold text-amber-600'><p>Remoto</p></div>
+              )}
+            </div>
         </div>
         <div className="px-6 py-4">
             <div className="font-bold text-xl mb-2 title">{job.title}</div>
@@ -91,7 +103,7 @@ const JobCard = ({job}) => {
                 
             </div>
             <div>
-                  { favorites.some(fav => fav.id === job.id) ? 
+                  { isFavorite(job) ? 
 
                     (
                     <button className="bg-white text-cyan-600 font-bold rounded text-2xl" onClick={() => removeFromFavorites(job)}>

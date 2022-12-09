@@ -1,12 +1,12 @@
-import { useContext, useState } from "react";
+import { useContext} from "react";
 
 import {Link, useNavigate } from "react-router-dom";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
 
-import { auth } from "../firebase";
+import { auth} from "../firebase";
 
+import Swal from 'sweetalert2'
 
 import { AuthContext } from "../context/AuthContext";
 
@@ -32,12 +32,21 @@ const Login = () => {
         data.password
       );
 
-      const user = {...res.user, role:'loquesea'}
-      dispatch({type:"LOGIN", payload:user})
+      /*const docRef = doc(db, "users", res.user.uid);
+      const docSnap = await getDoc(docRef);
+      const dataUser = docSnap.data();
 
+      const user = {...res.user, dataUser}*/
+
+      dispatch({type:"LOGIN", payload:res.user})
       navigate('/')
+
     } catch (err) {
-      console.log(err);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: err,
+      })
     }
   };
 

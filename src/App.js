@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,15 +13,20 @@ import Jobs from './pages/Jobs'
 import FavoriteJobs from './pages/FavoriteJobs'
 import JobDetail from "./pages/JobDetail";
 import HomeCompany from "./pages/HomeCompany";
+import RegisterCompany  from "./pages/RegisterCompany";
 
 
+import { AuthContextProvider,AuthContext } from './context/AuthContext';
+import FavoritesContext from './context/FavoritesContext';
 
-import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
+
+import useLocalStorage from './hooks/useLocalStorage';
 
 
 function App() {
 
+
+  const [favorites, setFavorites] = useLocalStorage('favorites', []);
 
   const {currentUser} = useContext(AuthContext)
 
@@ -30,23 +36,25 @@ function App() {
 
 
   return (
-    <div>
-      <Router>
-      <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/register" element={<Register/>} />
-        <Route path="/jobs" element={<Jobs/>} />
-        <Route path="/favoritejobs" element={<FavoriteJobs/>} />
-        <Route path="/homecompany" element={<HomeCompany/>} />
-        <Route path="/job/:id" element={<JobDetail/>} />
-  
+    <AuthContextProvider>
+      <FavoritesContext.Provider value={{ favorites, setFavorites }}>
+        <div>
+          <Router>
+          <Routes>
+            <Route path="/" element={<Home/>} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/register" element={<Register/>} />
+            <Route path="/jobs" element={<Jobs/>} />
+            <Route path="/job/:id" element={<JobDetail/>} />
+            <Route path="/favoritejobs" element={<FavoriteJobs/>} />
 
-      </Routes>
-    </Router>
-
-
-    </div>
+            <Route path="/homecompany" element={<HomeCompany/>} />
+            <Route path="/registercompany" element={<RegisterCompany/>} />
+          </Routes>
+        </Router>
+        </div>
+        </FavoritesContext.Provider>
+    </AuthContextProvider>
 
   );
 }

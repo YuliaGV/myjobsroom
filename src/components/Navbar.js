@@ -5,7 +5,7 @@ import { signOut  } from "firebase/auth";
 import { auth } from "../firebase";
 
 
-import { useNavigate } from 'react-router-dom';
+
 import { AuthContext } from "../context/AuthContext"
 
 import { MdMenu } from 'react-icons/md';
@@ -19,9 +19,8 @@ import Logo from '../img/LogoMini.png'
 const Navbar = ({ currentElement}) => {
 
 
-    const navigate = useNavigate();
-
     const {currentUser, dispatch} = useContext(AuthContext)
+    console.log(currentUser)
  
     const [navbarOpen, setNavbarOpen] = useState(false);
 

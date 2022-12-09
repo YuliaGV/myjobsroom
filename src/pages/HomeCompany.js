@@ -1,4 +1,5 @@
 import Navbar from '../components/Navbar'
+import { Link } from "react-router-dom";
 
 const HomeCompany = () => {
   return (
@@ -8,6 +9,9 @@ const HomeCompany = () => {
             <div className='mx-0'>
                 <h2 className='font-bold'>Cientos de empresas confían hoy en MyJobsRoom para sus procesos de reclutamiento</h2>
                 <p className='mt-8'>MyJobsRoom ofrece un servicio completamente gratuito</p>
+                <Link to='/registercompany'>
+                    <span className="mt-2 underline">Regístrate ahora</span>
+                </Link>
             </div>
             <div>
                 

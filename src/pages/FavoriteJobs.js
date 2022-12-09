@@ -1,14 +1,12 @@
-
 import React, {useContext} from 'react'
-import { FavoritesContext } from "../context/FavoritesContext";
+import FavoritesContext from '../context/FavoritesContext'
 
 import Navbar from '../components/Navbar'
 import JobCard from '../components/JobCard'
 
 const FavoriteJobs = () => {
 
-  const { favorites } = useContext(FavoritesContext);
-  console.log(favorites)
+  const {favorites} = useContext(FavoritesContext);
 
   return (
     <>
