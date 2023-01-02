@@ -1,9 +1,12 @@
+import { useEffect, useState } from "react";
+
 import {Link, useNavigate } from "react-router-dom";
 
-import { Formik } from 'formik';
+import { Formik} from 'formik';
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../firebase";
+import { auth, db, storage} from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 import {doc,setDoc } from "firebase/firestore";
 
@@ -14,6 +17,52 @@ import Logo from '../img/Logo.PNG'
 
 const RegisterCompany = () => {
 
+  const [file, setFile] = useState("");
+  const [dataFile, setDataFile] = useState({});
+
+
+  useEffect(() => {
+
+    const uploadFile = () => {
+      const name = new Date().getTime() + file.name;
+      const storageRef = ref(storage, name);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on('state_changed', 
+      (snapshot) => {
+        // Observe state change events such as progress, pause, and resume
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+          default:
+            break;
+        }
+      }, 
+      (error) => {
+        console.log(error)
+        // Handle unsuccessful uploads
+      }, 
+      () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setDataFile({img: downloadURL})
+        });
+      }
+    );
+
+    };
+    file && uploadFile();
+
+  }, [file]);
+
 
   const navigate = useNavigate();
 
@@ -21,18 +70,30 @@ const RegisterCompany = () => {
 
   
     try {
+    
       const res = await createUserWithEmailAndPassword(
         auth,
         data.email,
         data.password
       );
-      await setDoc(doc(db, "users", res.user.uid), {
+
+      let user = {
+
         email:data.email,
         password:data.password,
         name: data.name,
-        lastName: data.lastName,
-        role: 'company'
-      });
+        city: data.city,
+        country: data.country,
+        about: data.about,
+        role: 'company',
+        profilePhoto: dataFile,
+        jobs: []
+
+      }
+
+   
+      await setDoc(doc(db, "companies", res.user.uid), user);
+
       Swal.fire({
         title: 'Registro exitoso',
         width: 600,
@@ -41,6 +102,7 @@ const RegisterCompany = () => {
         
       })
       navigate('/login')
+      
     } catch (err) {
       Swal.fire({
         icon: 'error',
@@ -59,7 +121,7 @@ const RegisterCompany = () => {
             <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
                 <img className='mx-auto' src={Logo} alt='Logo' />
                 <h1 className="text-3xl font-semibold text-center text-cyan-700">
-                   Registrar empresa 
+                   Registro de empresa
                 </h1>
 
                 <Formik
@@ -110,7 +172,7 @@ const RegisterCompany = () => {
                   handleChange,
                   handleBlur,
                   handleSubmit,
-                  isSubmitting,
+                  isSubmitting
                   /* and other goodies */
                 }) => (
                   <form onSubmit={handleSubmit}>
@@ -134,7 +196,7 @@ const RegisterCompany = () => {
                             value={values.email}
 
                         />
-                        {errors.email && touched.email && errors.email}
+                        <p className="text-amber-600">{errors.email && touched.email && errors.email}</p>
                     </div>
                     <div className="mb-2">
                         <label
@@ -151,7 +213,7 @@ const RegisterCompany = () => {
                             onBlur={handleBlur}
                             value={values.password}
                         />
-                        {errors.password && touched.password && errors.password}
+                        <p className="text-amber-600">{errors.password && touched.password && errors.password}</p>
                     </div>
 
                     <div className="mb-2">
@@ -171,7 +233,7 @@ const RegisterCompany = () => {
                             value={values.name}
 
                         />
-                        {errors.name && touched.name && errors.name}
+                        <p className="text-amber-600">{errors.name && touched.name && errors.name}</p>
                     </div>
 
 
@@ -192,7 +254,7 @@ const RegisterCompany = () => {
                             value={values.city}
 
                         />
-                        {errors.city && touched.city && errors.city}
+                        <p className="text-amber-600">{errors.city && touched.city && errors.city}</p>
                     </div>
 
 
@@ -213,7 +275,7 @@ const RegisterCompany = () => {
                             value={values.country}
 
                         />
-                        {errors.country && touched.country && errors.country}
+                        <p className="text-amber-600">{errors.country && touched.country && errors.country}</p>
                     </div>
 
 
@@ -224,18 +286,47 @@ const RegisterCompany = () => {
                         >
                             Breve descripción
                         </label>
-                        <input
+                        <textarea
                             className="block w-full px-4 py-2 mt-2 text-cyan-700 bg-white border rounded-md focus:border-cyan-400 focus:ring-cyan-300 focus:outline-none focus:ring focus:ring-opacity-40"
                             autoFocus
                             type="text"
+                          
                             name="about"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.about}
 
                         />
-                        {errors.about && touched.about && errors.about}
+                        <p className="text-amber-600">{errors.about && touched.about && errors.about}</p>
                     </div>
+
+
+                    <div className="mb-2">
+                        <label
+                            htmlFor="logo"
+                            className="block text-sm font-semibold text-gray-800"
+                        >
+                            Logo -opcional- | tamaño: 100x100 | formato aceptado:png
+                        </label>
+                        <img
+                          width={100}
+                          height={100}
+                          src={
+                            file
+                              ? URL.createObjectURL(file)
+                              : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                          }
+                          alt=""
+                        />
+                        <input
+                            type="file"
+                            name="logo"
+                            accept=".png"
+                            onChange={(e) => setFile(e.target.files[0])}
+                        />
+                        
+                    </div>
+
 
         
                     <div className="mt-6">
@@ -295,7 +386,7 @@ const RegisterCompany = () => {
                    
 
 
-                    <Link to='/login'>
+                    <Link to='/logincompany'>
                       <span className="font-medium text-cyan-600 hover:underline">Inicia sesión</span>
                     </Link>
 

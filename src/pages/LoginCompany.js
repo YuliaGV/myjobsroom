@@ -1,5 +1,9 @@
 import { useContext} from "react";
 
+import { doc, getDoc } from "firebase/firestore";
+
+import { db } from "../firebase";
+
 import {Link, useNavigate } from "react-router-dom";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -14,11 +18,9 @@ import { Formik } from 'formik';
 
 import Logo from '../img/Logo.PNG'
 
-const Login = () => {
-
+const LoginCompany = () => {
   
   const navigate = useNavigate();
-
 
   const {dispatch} = useContext(AuthContext)
 
@@ -32,13 +34,14 @@ const Login = () => {
         data.password
       );
 
-      /*const docRef = doc(db, "users", res.user.uid);
+      const docRef = doc(db, "companies", res.user.uid);
       const docSnap = await getDoc(docRef);
-      const dataUser = docSnap.data();
+      const dataCompany = docSnap.data();
 
-      const user = {...res.user, dataUser}*/
+      const user = {...res.user, dataCompany}
+      
 
-      dispatch({type:"LOGIN", payload:res.user})
+      dispatch({type:"LOGIN", payload:user})
       navigate('/')
 
     } catch (err) {
@@ -51,7 +54,6 @@ const Login = () => {
   };
 
 
-
   return (
     <section className="h-screen">
 
@@ -59,7 +61,7 @@ const Login = () => {
             <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
                 <img className='mx-auto' src={Logo} alt='Logo' />
                 <h1 className="text-3xl font-semibold text-center text-cyan-700">
-                   Inicia sesión
+                   Inicio de sesión para empresa
                 </h1>
 
 
@@ -112,7 +114,7 @@ const Login = () => {
                             value={values.email}
 
                         />
-                        {errors.email && touched.email && errors.email}
+                        <p className="text-amber-600">{errors.email && touched.email && errors.email}</p>
                     </div>
                     <div className="mb-2">
                         <label
@@ -129,7 +131,7 @@ const Login = () => {
                             onBlur={handleBlur}
                             value={values.password}
                         />
-                        {errors.password && touched.password && errors.password}
+                        <p className="text-amber-600">{errors.password && touched.password && errors.password}</p>
                     </div>
                
 
@@ -194,12 +196,9 @@ const Login = () => {
                     {" "}
                     ¿Todavía no tienes una cuenta?{" "}
                    
-
-
-                    <Link to='/register'>
+                    <Link to='/registercompany'>
                       <span className="font-medium text-cyan-600 hover:underline">Regístrate ahora</span>
                     </Link>
-
 
                 </p>
 
@@ -209,4 +208,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginCompany

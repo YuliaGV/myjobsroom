@@ -4,8 +4,6 @@ import React, {useState, useContext } from 'react'
 import { signOut  } from "firebase/auth";
 import { auth } from "../firebase";
 
-
-
 import { AuthContext } from "../context/AuthContext"
 
 import { MdMenu } from 'react-icons/md';
@@ -20,7 +18,7 @@ const Navbar = ({ currentElement}) => {
 
 
     const {currentUser, dispatch} = useContext(AuthContext)
-    console.log(currentUser)
+    //console.log(currentUser)
  
     const [navbarOpen, setNavbarOpen] = useState(false);
 
@@ -30,8 +28,7 @@ const Navbar = ({ currentElement}) => {
     pages = [    
         { text: 'Inicio', href: '/' },
         { text: 'Ofertas', href: '/jobs' },
-        { text: 'Mis ofertas favoritas', href: '/favoritejobs'},
-        { text: '¿Eres una empresa?', href: '/homecompany'}
+        { text: 'Mis ofertas favoritas', href: '/favoritejobs'}
     ]
 
 
@@ -105,6 +102,13 @@ const Navbar = ({ currentElement}) => {
                             </li>
                         
                         ))}
+                        {currentUser && (
+                            <>
+                                <Link className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" to='/homecompany'>
+                                    <span className={ currentElement ==='Panel de empresa' ? 'text-amber-500 ml-2':'ml-2'}>Panel de empresa</span>
+                                </Link>
+                            </>
+                         )}
                     </ul>
 
                     <ul className="flex flex-col lg:flex-row list-none lg:ml-auto">
@@ -112,17 +116,11 @@ const Navbar = ({ currentElement}) => {
                     {!currentUser ? (
                         <>
                             <li className="nav-item">
-                                <Link className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" to='/login'>
-                                    <span className="ml-2">Ingresar</span>
+                                <Link className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" to='/logincompany'>
+                                    <span className="ml-2">Acceso para empresas</span>
                                 </Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="px-3 py-2 flex items-center text-sm uppercase font-bold leading-snug text-white hover:opacity-75" to='/register'>
-                                    <button className="bg-amber-600 hover:bg-amber-500 text-white font-bold rounded">
-                                        <span className="px-2 py-2 uppercase">Registrarte</span>
-                                    </button>
-                                </Link>
-                            </li>
+                            
                         </>
 
                     ):(
