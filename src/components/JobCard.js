@@ -43,7 +43,7 @@ const JobCard = ({job}) => {
 
   return (
     <>
-    <div className="rounded overflow-hidden shadow-lg">
+    <div className="rounded overflow-hidden shadow-lg border">
         <div className="px-6 py-4 flex flex-row justify-between">
             <div>
                 <p className="text-xs text-right text-gray-700 datePosted">
@@ -58,23 +58,35 @@ const JobCard = ({job}) => {
         </div>
         <div className="px-6 py-4">
             <div className="font-bold text-xl mb-2 title">{job.title}</div>
-            <p className="text-gray-700 text-md mb-2 company">
-            {job.company}
-            </p>
-      
-            <div className='flex flex-row justify-center'>
+
+            <div className='flex flex-row justify-center items-center mb-4'>
+
+              <div><img src={job.logo.img} alt='logo'/></div>
+
               <div>
-                <MdLocationOn />
-              </div>
-              <div>
-                <p className="text-gray-700 text-sm  mb-2 location">
-                  {job.location[0].city}, {job.location[0].country}
+                <p className="text-gray-700 text-md mb-2 company">
+                {job.company}
                 </p>
+            
+                <div className='flex flex-row justify-center'>
+                    <div>
+                      <MdLocationOn />
+                    </div>
+                    <div>
+                      <p className="text-gray-700 text-sm  mb-2 location">
+                        {job.locations[0].city}, {job.locations[0].country}
+                      </p>
+                    </div>
+                </div>
               </div>
+             
+  
             </div>
-               
+
+          
+         
             {
-            job.location.length > 1 && 
+            job.locations.length > 1 && 
             (
             <button
                 className="bg-transparent text-amber-600 text-sm active:bg-gray-100 
@@ -82,7 +94,7 @@ const JobCard = ({job}) => {
                 type="button"
                 onClick={() => setShowModal(true)}
             >
-                Ver +{job.location.length-1} ubicaciones
+                Ver +{job.locations.length-1} ubicaciones
             </button>
             )}
             
@@ -128,13 +140,13 @@ const JobCard = ({job}) => {
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-gray-200 outline-none focus:outline-none">
                 <div className="flex items-start justify-between p-5 border-b border-solid border-gray-300 rounded-t ">
-                  <h3 className="text-lg">Ubicaciones disponibles para la oferta <span className='font-bold'>{job.title}</span></h3>
+                  <h3 className="text-lg">Otras ubicaciones para la oferta <span className='font-bold'>{job.title}</span></h3>
                   
                 </div>
                 <div className="relative p-6 flex-auto">
                     <ul>
                         {
-                        job.location.map((elem, index) => (
+                        job.locations.slice(1).map((elem, index) => (
                             <li key={index}>{elem.city}, {elem.country}</li>
                         ))}
                     </ul>

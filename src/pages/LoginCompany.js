@@ -42,7 +42,7 @@ const LoginCompany = () => {
       
 
       dispatch({type:"LOGIN", payload:user})
-      navigate('/')
+      navigate('/homecompany')
 
     } catch (err) {
       Swal.fire({

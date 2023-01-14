@@ -71,14 +71,14 @@ const AddJob = ({company, idCompany}) => {
         jobs: [...company.jobs, docRef.id]
       });
       
-      /*Swal.fire({
+      Swal.fire({
         title: 'Oferta agregada',
         width: 600,
         padding: '3em',
         color: 'fff',
         
       })
-      navigate('/homecompany')*/
+      navigate('/homecompany')
       
     } catch (err) {
       Swal.fire({

@@ -15,7 +15,7 @@ const FavoriteJobs = () => {
           <h1 className = "font-semibold">Mis ofertas guardadas</h1>
 
 
-          <div className="columns-1 xs:columns-2 md:columns-3 lg:columns-5 mt-8">
+          <div className="columns-1 xs:columns-2 md:columns-3 lg:columns-4 mt-8">
 
           { 
             favorites.length > 0 &&

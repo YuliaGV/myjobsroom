@@ -101,7 +101,7 @@ const RegisterCompany = () => {
         color: 'fff',
         
       })
-      navigate('/login')
+      navigate('/logincompany')
       
     } catch (err) {
       Swal.fire({

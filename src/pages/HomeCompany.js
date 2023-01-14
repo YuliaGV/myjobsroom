@@ -37,7 +37,7 @@ const HomeCompany = () => {
   return (
     <div>
       <Navbar currentElement="Panel de empresa" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:container md:mx-auto text-center mt-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:container md:mx-auto text-center mt-8 mb-8">
         <div className="mx-0">
           {currentUser  && (
             <div>
@@ -74,11 +74,11 @@ const HomeCompany = () => {
 
         {currentUser  && (
 
-               <Link className="leading-snug hover:opacity-75 rounded" to='/myofferscompany'>
+               <Link className="leading-snug hover:opacity-75 rounded" to='/myjobscompany/'>
                
                     <span className="text-center uppercase text-cyan-700 underline font-bold text-md">Ver mis ofertas creadas</span>
                 
-              </Link>
+                </Link>
          
 
         )}
