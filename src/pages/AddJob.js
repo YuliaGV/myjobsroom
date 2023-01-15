@@ -54,7 +54,8 @@ const AddJob = ({company, idCompany}) => {
         jobtype: data.jobtype,
         salary: data.salary,
         description: data.description,
-        benefits: data.benefits
+        benefits: data.benefits,
+        applyemail: company.email
      
       }
 

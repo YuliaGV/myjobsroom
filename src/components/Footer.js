@@ -12,13 +12,13 @@ const Footer = () => {
                     <a href="/" className="mr-4 hover:underline md:mr-6 ">Quiénes somos</a>
                 </li>
                 <li>
-                    <a href="/" class="mr-4 hover:underline md:mr-6">Política de privacidad</a>
+                    <a href="/" className="mr-4 hover:underline md:mr-6">Política de privacidad</a>
                 </li>
                 <li>
-                    <a href="/" class="mr-4 hover:underline md:mr-6">Licencia</a>
+                    <a href="/" className="mr-4 hover:underline md:mr-6">Licencia</a>
                 </li>
                 <li>
-                    <a href="/" class="hover:underline">Contacto</a>
+                    <a href="/" className="hover:underline">Contacto</a>
                 </li>
             </ul>
         </footer>

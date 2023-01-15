@@ -77,13 +77,16 @@ const JobDetail = () => {
                 ))}
           </ul>
 
+          <hr/>
 
+          <h2 className='font-bold mt-4'>¿Cómo aplicar?</h2>
 
+          <p>Envía tu hoja de vida al correo: {job.applyemail}</p>
 
         </>
 
       ):(
-        <p>Lo sentimos, esta oferta no está disponible</p>
+        <p>Cargando descripción...</p>
       )
     
     

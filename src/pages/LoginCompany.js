@@ -42,7 +42,9 @@ const LoginCompany = () => {
       
 
       dispatch({type:"LOGIN", payload:user})
-      navigate('/homecompany')
+      navigate('/')
+      window.location.reload(false);
+     
 
     } catch (err) {
       Swal.fire({
