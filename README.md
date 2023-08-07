@@ -1,6 +1,6 @@
 # MyJobsRoom
 
-React + Firebase Project
+React + Firebase Project of a Jobboard
 
 Current Features:
 
